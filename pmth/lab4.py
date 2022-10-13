@@ -54,3 +54,26 @@ print(A.det())
 
 A = np.array([[2,1,1,1,1],[1,3,1,1,1],[1,1,4,1,1],[1,1,1,5,1],[1,1,1,1,6]])
 print(np.linalg.det(A))
+
+import sympy as sp
+import numpy as np
+
+m = sp.Symbol("m")
+A = np.array([[1,2,2],[-2,m-2,m-5],[m,1,m+1]])
+A = sp.Matrix(A)
+det = A.det()
+ret = sp.solve(det)
+print("m must not be one of", ret)
+
+A = np.array([[1,1,1,m],[1,1,m,1],[1,m,1,1],[m,1,1,1]])
+A = sp.Matrix(A)
+det = A.det()
+ret = sp.solve(det)
+print("m must not be one of", ret)
+
+x = sp.Symbol("x")
+A = np.array([[1,x,x-1,x+2],[0,0,x**2-1,0],[x,1,x,x-2],[0,0,x**2-1,x**100]])
+A = sp.Matrix(A)
+det = A.det()
+ret = sp.solve(det)
+print("m must be one of", ret)
