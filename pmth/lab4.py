@@ -77,3 +77,13 @@ A = sp.Matrix(A)
 det = A.det()
 ret = sp.solve(det)
 print("m must be one of", ret)
+
+
+import sympy as sp
+import numpy as np
+
+x = sp.Symbol("x")
+y = sp.Symbol("y")
+z = sp.Symbol("z")
+ret = sp.solve([-x + 2*y - 3*z - 1, 2*x - 2*y + z - 3, 3*x - 4*y + 4*z - 2],[x,y,z])
+print(ret)
