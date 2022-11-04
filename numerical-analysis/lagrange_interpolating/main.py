@@ -13,10 +13,10 @@ def lagrange(data_x, data_y, x):
 
 
 if __name__ == "__main__":
-    x = np.array([1,2,3])
-    y = np.array([1,4,9])
+    x = np.array([-3,-2,-1,0])
+    y = np.array([1/10,1/5,1/2,1])
 
-    gx = np.linspace(-5,5,1000)
+    gx = np.linspace(-200,300,1000)
     gy = [lagrange(x, y, p) for p in gx]
     # plot the function
     fig = plt.figure()
