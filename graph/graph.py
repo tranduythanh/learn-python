@@ -1,3 +1,5 @@
+import numpy as np
+
 #============================================================
 #Tao mot lop chua thong tin do thi
 class DOTHI:
@@ -93,6 +95,44 @@ class DOTHI:
                 self.MTKe[dinhcuoi-1][dinhdau-1] = 1
         
         return self.MTKe
+    
+    def TinhBacVoHuong(self, x):
+        bac = 0
+        
+        # Duyệt qua từng phần tử của dòng x của MtKe
+        for v in self.MTKe[x]:
+            # Nếu phần tử đó khác 0 thì mình tăng lên 1 bậc
+            if v != 0:
+                bac += 1
+        
+        # trả kết quả ra ngoài
+        return bac
+    
+    def TinhBacCoHuong(self, x):
+        bacVao = 0
+        bacRa = 0
+        
+        # Tương tự, để tính bậc ra thì ta chỉ cần xét trên HÀNG x của MTKe
+        for v in self.MTKe[x]:
+            if v != 0:
+                bacRa += 1
+
+        # Còn để tính bậc vào thì ta chỉ cần xét trên CỘT x của MTKe.
+        # 
+        # Duyệt qua tất cả hàng của MTKe. nếu phần tử thứ x của hàng đó
+        # khác 0 thì tăng thêm 1 bậc vào
+        for row in self.MTKe:
+            if row[x] != 0:
+                bacVao += 1
+
+        # trả kết quả ra ngoài
+        return bacVao, bacRa
+    
+    def TinhBac(self, x):
+        # Xét điều kiện để gọi hàm tính bậc tương ứng
+        if self.type == 0:
+            return self.TinhBacVoHuong(x)
+        return self.TinhBacCoHuong(x)
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -103,6 +143,7 @@ def MAIN():
     dt.XuatThongTin_DT()
 
     dt.ChuyenDSCanh_to_MTKe()
-    print(dt.MTKe)
+    print(np.array(dt.MTKe))
 
+    print(dt.TinhBac(1))
 MAIN()
