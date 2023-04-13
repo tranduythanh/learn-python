@@ -133,6 +133,16 @@ class DOTHI:
         if self.type == 0:
             return self.TinhBacVoHuong(x)
         return self.TinhBacCoHuong(x)
+    
+    # code kiểu stack
+    def DFS(self): 
+        daduyetqua = dict()
+    
+    # code kiểu queue
+    def DFS(self): 
+        daduyetqua = dict()
+
+
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
