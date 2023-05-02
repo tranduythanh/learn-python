@@ -35,6 +35,9 @@ class LinearTransform:
         variables = ', '.join([f'y{j+1}{dual_signs[j]}0' for j in range(len(self.LPP.Coeff_B))]) + '.'
         print('\t', variables)
 
+    
+    
+
     # In ra chuỗi 'Canonical form:'.
     # Chuyển đổi self.Coeff_A, self.Coeff_B, self.Coeff_C thành mảng numpy với kiểu dữ liệu là float và lưu vào các biến A_CT, B_CT, C_CT.
     # Gọi hàm generate_canonical_coefficients() với đầu vào là A_CT và C_CT, lưu kết quả trả về vào các biến A_CT, C_CT.
@@ -47,9 +50,32 @@ class LinearTransform:
         B_CT = np.array(self.LPP.Coeff_B, dtype=float)
         C_CT = np.array(self.LPP.Coeff_C, dtype=float)
         A_CT, C_CT = self.generate_canonical_coefficients(A_CT, C_CT)
+        A_CT, C_CT = self.simplify_canonical_coefficients(A_CT, C_CT)
         self.print_objective_function(C_CT)
         self.print_constraints(A_CT, B_CT)
         self.print_variable_constraints(len(C_CT))
+
+    def simplify_canonical_coefficients(self, A_CT, C_CT):
+        # Tìm các cột trong A_CT có tất cả các phần tử bằng 0
+        zero_columns = np.all(A_CT == 0, axis=0)
+        
+        # Tìm các cột trong A_CT có ít nhất một phần tử khác 0
+        non_zero_columns = np.logical_not(zero_columns)
+        
+        # Tìm các phần tử trong C_CT không bằng 0
+        corresponding_C_CT = (C_CT != 0)
+
+        # Kết hợp hai điều kiện: các cột không chứa toàn số 0 trong A_CT hoặc các phần tử không bằng 0 trong C_CT
+        columns_to_keep = np.logical_or(non_zero_columns, corresponding_C_CT)
+
+        # Loại bỏ các cột trong A_CT không thỏa mãn điều kiện
+        A_CT_simplified = A_CT[:, columns_to_keep]
+        
+        # Loại bỏ các phần tử trong C_CT không thỏa mãn điều kiện
+        C_CT_simplified = C_CT[columns_to_keep]
+
+        # Trả về A_CT và C_CT sau khi được đơn giản hóa
+        return A_CT_simplified, C_CT_simplified
 
     # Phương thức generate_canonical_coefficients này thực hiện chuyển đổi các hệ số và ma trận hệ số của hàm mục tiêu và các ràng buộc của bài toán tối ưu hóa tuyến tính ban đầu sang dạng chuẩn (canonical form). Để làm điều này, nó thêm các biến slack cho các ràng buộc và điều chỉnh hàm mục tiêu nếu cần thiết (nhân với -1 nếu là bài toán tối đa hóa).
     # 
